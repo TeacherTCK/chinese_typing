@@ -315,7 +315,7 @@
             filtered.forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s.id; // 這裡綁定的是加密字串
-                opt.textContent = `${s.n} 號 - ${s.name}`;
+                opt.textContent = `${s.n} - ${s.name}`;
                 studentSelect.appendChild(opt);
             });
             studentSelect.disabled = false;
