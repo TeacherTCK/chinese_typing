@@ -118,8 +118,14 @@
         <div class="p-6">
             <div id="category-display" class="category-tag bg-indigo-600 text-white font-bold">類別</div>
             <div id="text-container" class="text-display text-2xl mb-6 p-6 bg-white rounded-xl border border-gray-200 min-h-[160px] font-medium text-gray-800 shadow-sm"></div>
-            <textarea id="input-box" class="w-full p-4 text-xl border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:outline-none disabled:bg-gray-100 h-36 resize-none shadow-inner" placeholder="請點擊開始練習..." disabled></textarea>
-            <div class="mt-6 flex justify-center gap-4">
+             <textarea id="input-box" 
+                    oncopy="return false" 
+                    onpaste="return false" 
+                    oncut="return false" 
+                    oncontextmenu="return false"
+                    class="w-full p-4 text-xl border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:outline-none disabled:bg-gray-100 h-36 resize-none shadow-inner" 
+                    placeholder="請點擊開始練習..." disabled></textarea>
+			<div class="mt-6 flex justify-center gap-4">
                 <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始練習</button>
                 <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">結束結算</button>
             </div>
