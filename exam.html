@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中文輸入法練習</title>
+    <title>中文輸入法考試</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -39,8 +39,8 @@
         <div class="text-center mb-8">
 			<center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png"></center>
             <h1 class="text-2xl font-bold text-gray-800">普通電腦科</h1>
-			<h1 class="text-2x1 font-bold text-gray-800">中文輸入法練習</h1>
-            <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始練習</p>
+			<h1 class="text-2x1 font-bold text-gray-800">中文輸入法考試 (V0.1)</h1>
+            <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始考試</p>
         </div>
 
         <div class="space-y-5">
@@ -286,7 +286,8 @@
         const articleDatabase = [
             { category: "考試", items: [{ title: "考試", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
         ];
-
+		
+		const GAME_DURATION = 30 * 60; 
         let currentUser = null;
         let isPlaying = false;
         let startTime = 0;
@@ -403,32 +404,54 @@
                 else s.className = "char-incorrect";
                 if (i === typed.length) s.classList.add('char-current');
             });
-            const acc = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 0;
-            const sec = Math.floor((Date.now() - startTime) / 1000);
-            const cpm = sec > 0 ? Math.round((correct / sec) * 60) : 0;
+            const acc = typed.length > 0 ? Math.round((correct / currentText.length) * 100) : 0;
+
+			const elapsed = Math.floor((Date.now() - startTime) / 1000);
+			const remaining = Math.max(0, GAME_DURATION - elapsed);
+			const mins = Math.floor(remaining / 60);
+            const secs = remaining % 60;
+            document.getElementById('stats-time').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            const cpm = elapsed > 0 ? Math.round((correct / elapsed) * 60) : 0;
+			
             document.getElementById('stats-correct').innerText = correct;
             document.getElementById('stats-accuracy').innerText = acc + "%";
-            document.getElementById('stats-time').innerText = sec + "s";
             document.getElementById('stats-wpm').innerText = cpm;
-            return { correct, acc, sec, cpm };
+
+			if (remaining <= 0) {
+                stopGame();
+                return;
+            }
+			
+            return { correct, acc, elapsed, cpm };
         }
 
         function stopGame() {
             clearInterval(timer);
             isPlaying = false;
             document.getElementById('input-box').disabled = true;
-            const s = updateStats();
+			
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const typed = inputBox.value;
+            let correct = 0;
+            for(let i=0; i<typed.length; i++) {
+                if(typed[i] === currentText[i]) correct++;
+            }
+            const acc = Math.round((correct / currentText.length) * 100);
+            const cpm = elapsed > 0 ? Math.round((correct / elapsed) * 60) : 0;
+			
             document.getElementById('result-user-info').innerHTML = `
                 <div class="font-bold text-indigo-700">學生：${currentUser.c} (${currentUser.n}) ${currentUser.name}</div>
 				<div class="text-xs text-gray-500 mt-1">練習項目：${currentCategoryName} - ${currentArticleTitle}</div>
             `;
             document.getElementById('result-content').innerHTML = `
-                <div class="flex justify-between"><span>耗時：</span><span class="font-bold">${s.sec} 秒</span></div>
-                <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${s.correct} / ${currentText.length}</span></div>
-                <div class="flex justify-between"><span>準確度：</span><span class="font-bold text-orange-600">${s.acc}%</span></div>
-                <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${s.cpm} CPM</span></div>
+                <div class="flex justify-between"><span>耗時：</span><span class="font-bold">${elapsed} 秒</span></div>
+                <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${correct} / ${currentText.length}</span></div>
+                <div class="flex justify-between"><span>準確度：</span><span class="font-bold text-orange-600">${acc}%</span></div>
+                <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${cpm} CPM</span></div>
             `;
             document.getElementById('result-overlay').classList.remove('hidden');
+            inputBox.value = "";
+            inputBox.disabled = true;
         }
 
 
@@ -447,7 +470,7 @@
             html2canvas(area, { scale: 2 }).then(canvas => {
                 btns.forEach(b => b.style.display = 'block');
                 const a = document.createElement('a');
-                a.download = `成績單_${currentUser.c}_${currentUser.name}.png`;
+                a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}_${currentArticleTitle}.png`;
                 a.href = canvas.toDataURL();
                 a.click();
             });
