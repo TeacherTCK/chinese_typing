@@ -455,7 +455,7 @@
             html2canvas(area, { scale: 2 }).then(canvas => {
                 btns.forEach(b => b.style.display = 'block');
                 const a = document.createElement('a');
-                a.download = `成績單_${currentUser.c}_${currentUser.name}_${currentArticleTitle}.png`;
+                a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}_${currentArticleTitle}.png`;
                 a.href = canvas.toDataURL();
                 a.click();
             });
