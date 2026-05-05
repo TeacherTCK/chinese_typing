@@ -37,9 +37,9 @@
     <!-- 登入與認證畫面 -->
     <div id="login-screen" class="max-w-md mx-auto bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
         <div class="text-center mb-8">
-			<center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png"></center>
+            <center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png" alt="Logo" class="h-20 mb-4"></center>
             <h1 class="text-2xl font-bold text-gray-800">普通電腦科</h1>
-			<h1 class="text-2x1 font-bold text-gray-800">中文輸入法考試 (V0.1)</h1>
+            <h1 class="text-xl font-bold text-gray-800">中文輸入法考試 (V0.4)</h1>
             <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始考試</p>
         </div>
 
@@ -52,7 +52,7 @@
                     <option value="1B">1B</option>
                     <option value="1C">1C</option>
                     <option value="1D">1D</option>
-					<option value="老師">老師</option>
+                    <option value="老師">老師</option>
                 </select>
             </div>
 
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <!-- 遊戲主畫面 (初始隱藏) -->
+    <!-- 遊戲主畫面 -->
     <div id="game-screen" class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hidden">
         <div class="bg-indigo-700 p-4 text-white flex justify-between items-center">
             <div>
@@ -86,13 +86,12 @@
             <button onclick="location.reload()" class="text-xs bg-indigo-600 px-3 py-1 rounded hover:bg-indigo-500">登出</button>
         </div>
 
-        <!-- 練習設定與統計 -->
         <div class="p-4 bg-gray-50 border-b">
             <label class="text-xs font-bold text-gray-500 uppercase">練習類別</label>
             <select id="article-select" class="w-full p-2 rounded border border-gray-300 text-sm outline-none bg-white"></select>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-2 p-4 bg-indigo-50 border-b border-indigo-100 text-xs font-bold">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-2 p-4 bg-indigo-50 border-b border-indigo-100 text-xs font-bold text-center">
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
                 <span class="text-gray-400">總字數</span>
                 <span id="stats-total" class="text-indigo-600 text-lg">0</span>
@@ -106,8 +105,8 @@
                 <span id="stats-accuracy" class="text-orange-600 text-lg">0%</span>
             </div>
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
-                <span class="text-gray-400">耗時</span>
-                <span id="stats-time" class="text-blue-600 text-lg">0s</span>
+                <span class="text-gray-400">剩餘時間</span>
+                <span id="stats-time" class="text-blue-600 text-lg">30:00</span>
             </div>
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
                 <span class="text-gray-400">速率(CPM)</span>
@@ -118,225 +117,90 @@
         <div class="p-6">
             <div id="category-display" class="category-tag bg-indigo-600 text-white font-bold">類別</div>
             <div id="text-container" class="text-display text-2xl mb-6 p-6 bg-white rounded-xl border border-gray-200 min-h-[160px] font-medium text-gray-800 shadow-sm"></div>
-             <textarea id="input-box" 
-                    oncopy="return false" 
-                    onpaste="return false" 
-                    oncut="return false" 
-                    oncontextmenu="return false"
-                    class="w-full p-4 text-xl border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:outline-none disabled:bg-gray-100 h-36 resize-none shadow-inner" 
-                    placeholder="請點擊開始練習..." disabled></textarea>
-			<div class="mt-6 flex justify-center gap-4">
+            <textarea id="input-box" 
+                oncopy="return false" onpaste="return false" oncut="return false" oncontextmenu="return false"
+                class="w-full p-4 text-xl border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:outline-none disabled:bg-gray-100 h-36 resize-none shadow-inner" 
+                placeholder="請點擊開始練習..." disabled></textarea>
+            <div class="mt-6 flex justify-center gap-4">
                 <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始練習</button>
                 <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">結束結算</button>
             </div>
         </div>
+    </div>
 
-        <!-- 結算報告 -->
-        <div id="result-overlay" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-md">
-            <div id="screenshot-area" class="bg-white p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border-4 border-indigo-200">
-                <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2"><span class="text-3xl">🏅</span></div>
-                <h2 class="text-xl font-black text-indigo-900">中文輸入法考試成績</h2>
-                <div id="result-user-info" class="my-4 p-3 bg-gray-50 rounded-xl border border-gray-200 text-sm"></div>
-                <div id="result-content" class="text-left space-y-3 mb-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100"></div>
-                <div class="space-y-3">
-                    <button id="btn-screenshot" class="w-full py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 shadow-lg flex items-center justify-center gap-2">儲存成績單圖片</button>
-                    <button onclick="resetGame()" class="w-full py-3 bg-gray-200 text-gray-700 font-bold rounded-xl">重試</button>
-                </div>
+    <!-- 結算報告 -->
+    <div id="result-overlay" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-md">
+        <div id="screenshot-area" class="bg-white p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border-4 border-indigo-200">
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2"><span class="text-3xl">🏅</span></div>
+            <h2 class="text-xl font-black text-indigo-900">中文輸入法考試成績</h2>
+            <div id="result-user-info" class="my-4 p-3 bg-gray-50 rounded-xl border border-gray-200 text-sm"></div>
+            <div id="result-content" class="text-left space-y-3 mb-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100"></div>
+            <div class="space-y-3">
+                <button id="btn-screenshot" class="w-full py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 shadow-lg flex items-center justify-center gap-2">儲存成績單圖片</button>
+                <button onclick="resetGame()" class="w-full py-3 bg-gray-200 text-gray-700 font-bold rounded-xl">重試</button>
             </div>
         </div>
     </div>
 
+    <footer class="mt-8 py-6 text-center text-gray-400 text-xs border-t border-gray-200 w-full">
+        <p>&copy; 2026 譚志基老師 - 僅供教學用途</p>
+    </footer>
+
     <script>
-        // 解密函式：將加密字串還原為正確的學生編號以供比對
         function decodeId(encoded) {
             const map = {'k':'a', 'a':'0', 'b':'1', 'c':'2', 'd':'3', 'e':'4', 'f':'5', 'g':'6', 'h':'7', 'i':'8', 'j':'9'};
             return encoded.split('').map(char => map[char] || char).join('');
         }
 
-        // 加密後的學生名單 (防止在原始碼直接暴露學生編號)
         const rawStudentData = [
-            // 1A
-            {c:"1A", n:"1", name:"王萱", id:"kcfaab"},
-            {c:"1A", n:"2", name:"趙紫喬", id:"kcfabf"},
-            {c:"1A", n:"3", name:"馮雨晴", id:"kcfacb"},
-            {c:"1A", n:"4", name:"許恩嵐", id:"kcfach"},
-            {c:"1A", n:"5", name:"林曉月", id:"kcfadd"},
-            {c:"1A", n:"6", name:"林芷樂", id:"kcfadf"},
-            {c:"1A", n:"7", name:"林雪瑤", id:"kcfaff"},
-            {c:"1A", n:"8", name:"林怡欣", id:"kcfafg"},
-            {c:"1A", n:"9", name:"吳瑾萱", id:"kcfagh"},
-            {c:"1A", n:"10", name:"柯晴", id:"kcfagi"},
-            {c:"1A", n:"11", name:"曾鎧淇", id:"kcfaib"},
-            {c:"1A", n:"12", name:"謝潔榆", id:"kcfaid"},
-            {c:"1A", n:"13", name:"尹瀖萮", id:"kcfaih"},
-            {c:"1A", n:"14", name:"黃以錡", id:"kcfajh"},
-            {c:"1A", n:"15", name:"楊卓琳", id:"kcfbad"},
-            {c:"1A", n:"16", name:"楊雅媛", id:"kcfbae"},
-            {c:"1A", n:"17", name:"楊諾晴", id:"kcfbag"},
-            {c:"1A", n:"18", name:"蔡俊熙", id:"kcfaac"},
-            {c:"1A", n:"19", name:"陳羿夆", id:"kcfaae"},
-            {c:"1A", n:"20", name:"左嘉晉", id:"kcfabg"},
-            {c:"1A", n:"21", name:"付梓霖", id:"kcfaca"},
-            {c:"1A", n:"22", name:"何昊斌", id:"kcfacc"},
-            {c:"1A", n:"23", name:"江岸", id:"kcfaci"},
-            {c:"1A", n:"24", name:"黎柏麟", id:"kcfadc"},
-            {c:"1A", n:"25", name:"劉思源", id:"kcfadj"},
-            {c:"1A", n:"26", name:"李柏軒", id:"kcfafe"},
-            {c:"1A", n:"27", name:"呂卓謙", id:"kcfaga"},
-            {c:"1A", n:"28", name:"繆天朗", id:"kcfage"},
-            {c:"1A", n:"29", name:"沈子軒", id:"kcfahb"},
-            {c:"1A", n:"30", name:"曾曉航", id:"kcfaia"},
-            {c:"1A", n:"31", name:"黃宇康", id:"kcfbbi"},
-            {c:"1A", n:"32", name:"胡梓皓", id:"kcfajj"},
-            {c:"1A", n:"33", name:"楊啓政", id:"kcfbaf"},
-            {c:"1A", n:"34", name:"鄭昊琰", id:"kcfbbc"},
-            {c:"1A", n:"35", name:"李鈞皓", id:"kcfafa"},
-            // 1B
-            {c:"1B", n:"1", name:"陳敏兒", id:"kcfaah"},
-            {c:"1B", n:"2", name:"黃思雨", id:"kcface"},
-            {c:"1B", n:"3", name:"姜芝玲", id:"kcfbbf"},
-            {c:"1B", n:"4", name:"郭彥妤", id:"kcfada"},
-            {c:"1B", n:"5", name:"李梓菁", id:"kcfaef"},
-            {c:"1B", n:"6", name:"梁佩珊", id:"kcfaeh"},
-            {c:"1B", n:"7", name:"勞希妍", id:"kcfafj"},
-            {c:"1B", n:"8", name:"蘇心悠", id:"kcfahd"},
-            {c:"1B", n:"9", name:"孫婉婷", id:"kcfahe"},
-            {c:"1B", n:"10", name:"唐子晴", id:"kcfahi"},
-            {c:"1B", n:"11", name:"田欣", id:"kcfbbj"},
-            {c:"1B", n:"12", name:"謝靖澄", id:"kcfaic"},
-            {c:"1B", n:"13", name:"韋詠熙", id:"kcfaig"},
-            {c:"1B", n:"14", name:"黃雅頌", id:"kcfajf"},
-            {c:"1B", n:"15", name:"陳靖民", id:"kcfaad"},
-            {c:"1B", n:"16", name:"陳彦愷", id:"kcfaag"},
-            {c:"1B", n:"17", name:"陳宜德", id:"kcfaai"},
-            {c:"1B", n:"18", name:"張正昊", id:"kcfabb"},
-            {c:"1B", n:"19", name:"杜嘉禧", id:"kcfabj"},
-            {c:"1B", n:"20", name:"古智森", id:"kcfbbg"},
-            {c:"1B", n:"21", name:"梁永樂", id:"kcfaei"},
-            {c:"1B", n:"22", name:"呂澤楷", id:"kcfagb"},
-            {c:"1B", n:"23", name:"麥志誠", id:"kcfagc"},
-            {c:"1B", n:"24", name:"潘宥安", id:"kcfaha"},
-            {c:"1B", n:"25", name:"譚澤聰", id:"kcfahg"},
-            {c:"1B", n:"26", name:"温學耀", id:"kcfaif"},
-            {c:"1B", n:"27", name:"黃致君", id:"kcfaii"},
-            {c:"1B", n:"28", name:"王瑋鍵", id:"kcfajg"},
-            {c:"1B", n:"29", name:"顏梓洋", id:"kcfbac"},
-            {c:"1B", n:"30", name:"嚴樂熙", id:"kcfbai"},
-            {c:"1B", n:"31", name:"嚴永騰", id:"kcfbaj"},
-            {c:"1B", n:"32", name:"張俊熙", id:"kcfbbb"},
-            {c:"1B", n:"33", name:"宋雍涵", id:"kcfbdi"},
-            // 1C
-            {c:"1C", n:"1", name:"鄭浠嵐", id:"kcfaaj"},
-            {c:"1C", n:"2", name:"黎靖柔", id:"kceagj"},
-            {c:"1C", n:"3", name:"劉純君", id:"kceabg"},
-            {c:"1C", n:"4", name:"劉楒欣", id:"kcfadi"},
-            {c:"1C", n:"5", name:"李依桐", id:"kcdafi"},
-            {c:"1C", n:"6", name:"李希琳", id:"kcfaej"},
-            {c:"1C", n:"7", name:"吳千頴", id:"kcfagg"},
-            {c:"1C", n:"8", name:"鄧焱文", id:"kcfahh"},
-            {c:"1C", n:"9", name:"張恩霈", id:"kcfbba"},
-            {c:"1C", n:"10", name:"張仲朗", id:"kcfaba"},
-            {c:"1C", n:"11", name:"鍾錫禧", id:"kcfabi"},
-            {c:"1C", n:"12", name:"許庭僖", id:"kcfacg"},
-            {c:"1C", n:"13", name:"賴嘉烽", id:"kcfadb"},
-            {c:"1C", n:"14", name:"林柏宇", id:"kcfade"},
-            {c:"1C", n:"15", name:"羅浩然", id:"kcfaec"},
-            {c:"1C", n:"16", name:"李孔賢", id:"kcfaee"},
-            {c:"1C", n:"17", name:"梁智藍", id:"kcfaeg"},
-            {c:"1C", n:"18", name:"梁凱熙", id:"kceaid"},
-            {c:"1C", n:"20", name:"譚梓熙", id:"kcfbbe"},
-            {c:"1C", n:"21", name:"曾彩軒", id:"kcfahj"},
-            {c:"1C", n:"22", name:"尹曉鵬", id:"kcfaie"},
-            {c:"1C", n:"23", name:"黃顥琛", id:"kcfaja"},
-            {c:"1C", n:"24", name:"黃鈞柏", id:"kcfaje"},
-            {c:"1C", n:"25", name:"許治穎", id:"kcfbab"},
-            {c:"1C", n:"26", name:"葉善鍇", id:"kcfbbh"},
-            // 1D
-            {c:"1D", n:"1", name:"陳芯蔚", id:"kcfaaf"},
-            {c:"1D", n:"2", name:"何芷瑩", id:"kceagd"},
-            {c:"1D", n:"3", name:"何宛芯", id:"kcfacd"},
-            {c:"1D", n:"4", name:"林韻妍", id:"kcfadg"},
-            {c:"1D", n:"5", name:"劉曉楠", id:"kcfadh"},
-            {c:"1D", n:"6", name:"羅翠愉", id:"kcfaeb"},
-            {c:"1D", n:"7", name:"李思誼", id:"kcfafd"},
-            {c:"1D", n:"8", name:"林宛盈", id:"kcfafh"},
-            {c:"1D", n:"9", name:"黃熙琳", id:"kcfaij"},
-            {c:"1D", n:"10", name:"黃浩頤", id:"kcfajb"},
-            {c:"1D", n:"11", name:"黃凱穎", id:"kcfajc"},
-            {c:"1D", n:"12", name:"黃涴詩", id:"kcfaji"},
-            {c:"1D", n:"13", name:"蕭凱琳", id:"kcfbaa"},
-            {c:"1D", n:"14", name:"張逸喬", id:"kcfabc"},
-            {c:"1D", n:"15", name:"張蕣顯", id:"kcfabe"},
-            {c:"1D", n:"16", name:"何樂晞", id:"kceagc"},
-            {c:"1D", n:"17", name:"郭名軒", id:"kcfacj"},
-            {c:"1D", n:"18", name:"劉旭軒", id:"kcfaea"},
-            {c:"1D", n:"19", name:"李仕良", id:"kcfafb"},
-            {c:"1D", n:"20", name:"李仕賢", id:"kcfafc"},
-            {c:"1D", n:"21", name:"麥鈞皓", id:"kcfagd"},
-            {c:"1D", n:"22", name:"吳焯瑜", id:"kcfagf"},
-            {c:"1D", n:"23", name:"吳政煒", id:"kceajc"},
-            {c:"1D", n:"24", name:"吳宇軒", id:"kceaje"},
-            {c:"1D", n:"25", name:"冼筠堯", id:"kcfahc"},
-            {c:"1D", n:"26", name:"楊逸朗", id:"kcfbah"},
-			// 老師
-            {c:"老師", n:"TCK", name:"譚志基老師", id:"aaa"},
-			{c:"老師", n:"CML", name:"鄭孟利老師", id:"aaa"}
+            {c:"1A", n:"1", name:"王萱", id:"kcfaab"}, {c:"1A", n:"2", name:"趙紫喬", id:"kcfabf"}, {c:"1A", n:"3", name:"馮雨晴", id:"kcfacb"}, {c:"1A", n:"4", name:"許恩嵐", id:"kcfach"}, {c:"1A", n:"5", name:"林曉月", id:"kcfadd"}, {c:"1A", n:"6", name:"林芷樂", id:"kcfadf"}, {c:"1A", n:"7", name:"林雪瑤", id:"kcfaff"}, {c:"1A", n:"8", name:"林怡欣", id:"kcfafg"}, {c:"1A", n:"9", name:"吳瑾萱", id:"kcfagh"}, {c:"1A", n:"10", name:"柯晴", id:"kcfagi"}, {c:"1A", n:"11", name:"曾鎧淇", id:"kcfaib"}, {c:"1A", n:"12", name:"謝潔榆", id:"kcfaid"}, {c:"1A", n:"13", name:"尹瀖萮", id:"kcfaih"}, {c:"1A", n:"14", name:"黃以錡", id:"kcfajh"}, {c:"1A", n:"15", name:"楊卓琳", id:"kcfbad"}, {c:"1A", n:"16", name:"楊雅媛", id:"kcfbae"}, {c:"1A", n:"17", name:"楊諾晴", id:"kcfbag"}, {c:"1A", n:"18", name:"蔡俊熙", id:"kcfaac"}, {c:"1A", n:"19", name:"陳羿夆", id:"kcfaae"}, {c:"1A", n:"20", name:"左嘉晉", id:"kcfabg"}, {c:"1A", n:"21", name:"付梓霖", id:"kcfaca"}, {c:"1A", n:"22", name:"何昊斌", id:"kcfacc"}, {c:"1A", n:"23", name:"江岸", id:"kcfaci"}, {c:"1A", n:"24", name:"黎柏麟", id:"kcfadc"}, {c:"1A", n:"25", name:"劉思源", id:"kcfadj"}, {c:"1A", n:"26", name:"李柏軒", id:"kcfafe"}, {c:"1A", n:"27", name:"呂卓謙", id:"kcfaga"}, {c:"1A", n:"28", name:"繆天朗", id:"kcfage"}, {c:"1A", n:"29", name:"沈子軒", id:"kcfahb"}, {c:"1A", n:"30", name:"曾曉航", id:"kcfaia"}, {c:"1A", n:"31", name:"黃宇康", id:"kcfbbi"}, {c:"1A", n:"32", name:"胡梓皓", id:"kcfajj"}, {c:"1A", n:"33", name:"楊啓政", id:"kcfbaf"}, {c:"1A", n:"34", name:"鄭昊琰", id:"kcfbbc"}, {c:"1A", n:"35", name:"李鈞皓", id:"kcfafa"},
+            {c:"1B", n:"1", name:"陳敏兒", id:"kcfaah"}, {c:"1B", n:"2", name:"黃思雨", id:"kcface"}, {c:"1B", n:"3", name:"姜芝玲", id:"kcfbbf"}, {c:"1B", n:"4", name:"郭彥妤", id:"kcfada"}, {c:"1B", n:"5", name:"李梓菁", id:"kcfaef"}, {c:"1B", n:"6", name:"梁佩珊", id:"kcfaeh"}, {c:"1B", n:"7", name:"勞希妍", id:"kcfafj"}, {c:"1B", n:"8", name:"蘇心悠", id:"kcfahd"}, {c:"1B", n:"9", name:"孫婉婷", id:"kcfahe"}, {c:"1B", n:"10", name:"唐子晴", id:"kcfahi"}, {c:"1B", n:"11", name:"田欣", id:"kcfbbj"}, {c:"1B", n:"12", name:"謝靖澄", id:"kcfaic"}, {c:"1B", n:"13", name:"韋詠熙", id:"kcfaig"}, {c:"1B", n:"14", name:"黃雅頌", id:"kcfajf"}, {c:"1B", n:"15", name:"陳靖民", id:"kcfaad"}, {c:"1B", n:"16", name:"陳彦愷", id:"kcfaag"}, {c:"1B", n:"17", name:"陳宜德", id:"kcfaai"}, {c:"1B", n:"18", name:"張正昊", id:"kcfabb"}, {c:"1B", n:"19", name:"杜嘉禧", id:"kcfabj"}, {c:"1B", n:"20", name:"古智森", id:"kcfbbg"}, {c:"1B", n:"21", name:"梁永樂", id:"kcfaei"}, {c:"1B", n:"22", name:"呂澤楷", id:"kcfagb"}, {c:"1B", n:"23", name:"麥志誠", id:"kcfagc"}, {c:"1B", n:"24", name:"潘宥安", id:"kcfaha"}, {c:"1B", n:"25", name:"譚澤聰", id:"kcfahg"}, {c:"1B", n:"26", name:"温學耀", id:"kcfaif"}, {c:"1B", n:"27", name:"黃致君", id:"kcfaii"}, {c:"1B", n:"28", name:"王瑋鍵", id:"kcfajg"}, {c:"1B", n:"29", name:"顏梓洋", id:"kcfbac"}, {c:"1B", n:"30", name:"嚴樂熙", id:"kcfbai"}, {c:"1B", n:"31", name:"嚴永騰", id:"kcfbaj"}, {c:"1B", n:"32", name:"張俊熙", id:"kcfbbb"}, {c:"1B", n:"33", name:"宋雍涵", id:"kcfbdi"},
+            {c:"1C", n:"1", name:"鄭浠嵐", id:"kcfaaj"}, {c:"1C", n:"2", name:"黎靖柔", id:"kceagj"}, {c:"1C", n:"3", name:"劉純君", id:"kceabg"}, {c:"1C", n:"4", name:"劉楒欣", id:"kcfadi"}, {c:"1C", n:"5", name:"李依桐", id:"kcdafi"}, {c:"1C", n:"6", name:"李希琳", id:"kcfaej"}, {c:"1C", n:"7", name:"吳千頴", id:"kcfagg"}, {c:"1C", n:"8", name:"鄧焱文", id:"kcfahh"}, {c:"1C", n:"9", name:"張恩霈", id:"kcfbba"}, {c:"1C", n:"10", name:"張仲朗", id:"kcfaba"}, {c:"1C", n:"11", name:"鍾錫禧", id:"kcfabi"}, {c:"1C", n:"12", name:"許庭僖", id:"kcfacg"}, {c:"1C", n:"13", name:"賴嘉烽", id:"kcfadb"}, {c:"1C", n:"14", name:"林柏宇", id:"kcfade"}, {c:"1C", n:"15", name:"羅浩然", id:"kcfaec"}, {c:"1C", n:"16", name:"李孔賢", id:"kcfaee"}, {c:"1C", n:"17", name:"梁智藍", id:"kcfaeg"}, {c:"1C", n:"18", name:"梁凱熙", id:"kceaid"}, {c:"1C", n:"20", name:"譚梓熙", id:"kcfbbe"}, {c:"1C", n:"21", name:"曾彩軒", id:"kcfahj"}, {c:"1C", n:"22", name:"尹曉鵬", id:"kcfaie"}, {c:"1C", n:"23", name:"黃顥琛", id:"kcfaja"}, {c:"1C", n:"24", name:"黃鈞柏", id:"kcfaje"}, {c:"1C", n:"25", name:"許治穎", id:"kcfbab"}, {c:"1C", n:"26", name:"葉善鍇", id:"kcfbbh"},
+            {c:"1D", n:"1", name:"陳芯蔚", id:"kcfaaf"}, {c:"1D", n:"2", name:"何芷瑩", id:"kceagd"}, {c:"1D", n:"3", name:"何宛芯", id:"kcfacd"}, {c:"1D", n:"4", name:"林韻妍", id:"kcfadg"}, {c:"1D", n:"5", name:"劉曉楠", id:"kcfadh"}, {c:"1D", n:"6", name:"羅翠愉", id:"kcfaeb"}, {c:"1D", n:"7", name:"李思誼", id:"kcfafd"}, {c:"1D", n:"8", name:"林宛盈", id:"kcfafh"}, {c:"1D", n:"9", name:"黃熙琳", id:"kcfaij"}, {c:"1D", n:"10", name:"黃浩頤", id:"kcfajb"}, {c:"1D", n:"11", name:"黃凱穎", id:"kcfajc"}, {c:"1D", n:"12", name:"黃涴詩", id:"kcfaji"}, {c:"1D", n:"13", name:"蕭凱琳", id:"kcfbaa"}, {c:"1D", n:"14", name:"張逸喬", id:"kcfabc"}, {c:"1D", n:"15", name:"張蕣顯", id:"kcfabe"}, {c:"1D", n:"16", name:"何樂晞", id:"kceagc"}, {c:"1D", n:"17", name:"郭名軒", id:"kcfacj"}, {c:"1D", n:"18", name:"劉旭軒", id:"kcfaea"}, {c:"1D", n:"19", name:"李仕良", id:"kcfafb"}, {c:"1D", n:"20", name:"李仕賢", id:"kcfafc"}, {c:"1D", n:"21", name:"麥鈞皓", id:"kcfagd"}, {c:"1D", n:"22", name:"吳焯瑜", id:"kcfagf"}, {c:"1D", n:"23", name:"吳政煒", id:"kceajc"}, {c:"1D", n:"24", name:"吳宇軒", id:"kceaje"}, {c:"1D", n:"25", name:"冼筠堯", id:"kcfahc"}, {c:"1D", n:"26", name:"楊逸朗", id:"kcfbah"},
+            {c:"老師", n:"TCK", name:"譚志基老師", id:"aaa"}, {c:"老師", n:"CML", name:"鄭孟利老師", id:"aaa"}
         ];
 
         const articleDatabase = [
-            { category: "考試", items: [{ title: "考試", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
+            { category: "考試", items: [{ title: "正式試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
         ];
-		
-		const GAME_DURATION = 10; 
+
+        const GAME_DURATION = 30 * 60; // 30分鐘
         let currentUser = null;
         let isPlaying = false;
         let startTime = 0;
         let timer = null;
         let currentText = "";
+        let currentArticleTitle = "";
 
-        // UI 初始化
+        // UI 引用
         const classSelect = document.getElementById('login-class');
         const studentSelect = document.getElementById('login-student');
         const idInput = document.getElementById('login-id');
         const loginBtn = document.getElementById('btn-login');
+        const inputBox = document.getElementById('input-box');
 
-        // 當班別改變時，更新學生清單
         classSelect.addEventListener('change', () => {
             const selectedClass = classSelect.value;
             studentSelect.innerHTML = '<option value="">-- 選擇姓名 (班號) --</option>';
-            
-            if (!selectedClass) {
-                studentSelect.disabled = true;
-                return;
-            }
+            if (!selectedClass) { studentSelect.disabled = true; return; }
 
             const filtered = rawStudentData.filter(s => s.c === selectedClass);
-            // 按班號排序
-            filtered.sort((a, b) => parseInt(a.n) - parseInt(b.n));
-
+            filtered.sort((a, b) => a.n.localeCompare(b.n, undefined, {numeric: true}));
             filtered.forEach(s => {
                 const opt = document.createElement('option');
-                opt.value = s.id; // 這裡綁定的是加密字串
+                opt.value = s.id;
                 opt.textContent = `${s.n} - ${s.name}`;
                 studentSelect.appendChild(opt);
             });
             studentSelect.disabled = false;
         });
 
-        // 登入驗證
         loginBtn.addEventListener('click', () => {
             const selectedId = studentSelect.value;
             const inputId = idInput.value.trim().toLowerCase();
+            if (!selectedId || !inputId) { alert("請完整填寫登入資訊"); return; }
 
-            if (!selectedId || !inputId) {
-                alert("請完整選擇資訊並輸入學生編號");
-                return;
-            }
-
-            // 尋找選中的學生
             const student = rawStudentData.find(s => s.id === selectedId);
-
-            // 驗證機制：將選中的學生的加密編號解密，然後比對使用者的輸入
             if (student && inputId === decodeId(student.id)) {
                 currentUser = student;
                 document.getElementById('login-screen').classList.add('hidden');
@@ -372,10 +236,9 @@
             const [ci, ii] = document.getElementById('article-select').value.split('-').map(Number);
             const article = articleDatabase[ci].items[ii];
             currentText = article.content;
-            currentCategoryName = articleDatabase[ci].category;
             currentArticleTitle = article.title;
             
-            document.getElementById('category-display').textContent = currentCategoryName;
+            document.getElementById('category-display').textContent = articleDatabase[ci].category;
             document.getElementById('text-container').innerHTML = currentText.split('').map(c => `<span>${c}</span>`).join('');
             document.getElementById('stats-total').innerText = currentText.length;
         }
@@ -383,7 +246,6 @@
         function startGame() {
             isPlaying = true;
             document.getElementById('article-select').disabled = true;
-            const inputBox = document.getElementById('input-box');
             inputBox.disabled = false;
             inputBox.value = "";
             inputBox.focus();
@@ -391,20 +253,21 @@
             timer = setInterval(tick, 1000);
             document.getElementById('btn-start').classList.add('hidden');
             document.getElementById('btn-stop').classList.remove('hidden');
+            updateStats();
         }
 
-		function tick() {
+        function tick() {
             const elapsed = Math.floor((Date.now() - startTime) / 1000);
             const remaining = Math.max(0, GAME_DURATION - elapsed);
             const mins = Math.floor(remaining / 60);
             const secs = remaining % 60;
             document.getElementById('stats-time').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
             if (remaining <= 0) stopGame();
-            updateStatsUI();
+            updateStats();
         }
-		
+
         function updateStats() {
-            const typed = document.getElementById('input-box').value;
+            const typed = inputBox.value;
             const spans = document.getElementById('text-container').querySelectorAll('span');
             let correct = 0;
             spans.forEach((s, i) => {
@@ -414,59 +277,56 @@
                 else s.className = "char-incorrect";
                 if (i === typed.length) s.classList.add('char-current');
             });
-            const acc = typed.length > 0 ? Math.round((correct / currentText.length) * 100) : 0;
 
-			const elapsed = Math.floor((Date.now() - startTime) / 1000);
-			const remaining = Math.max(0, GAME_DURATION - elapsed);
-			const mins = Math.floor(remaining / 60);
-            const secs = remaining % 60;
-            document.getElementById('stats-time').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            const cpm = elapsed > 0 ? Math.round((correct / elapsed) * 60) : 0;
-			
+            const elapsed = Math.max(1, Math.floor((Date.now() - startTime) / 1000));
+            const acc = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 0;
+            const cpm = Math.round((correct / elapsed) * 60);
+
             document.getElementById('stats-correct').innerText = correct;
             document.getElementById('stats-accuracy').innerText = acc + "%";
-            document.getElementById('stats-wpm').innerText = cpm;
+            document.getElementById('stats-wpm').innerText = isPlaying ? cpm : document.getElementById('stats-wpm').innerText;
 
-			return { correct, acc, elapsed, cpm };
+            return { correct, acc, elapsed, cpm };
         }
 
         function stopGame() {
+            if (!isPlaying) return;
             clearInterval(timer);
-            const stats = updateStatsUI();
+            const finalStats = updateStats();
             isPlaying = false;
-            	
+            
             document.getElementById('result-user-info').innerHTML = `
                 <div class="font-bold text-indigo-700">學生：${currentUser.c} (${currentUser.n}) ${currentUser.name}</div>
-				<div class="text-xs text-gray-500 mt-1">考試項目：${currentArticleTitle}</div>
+                <div class="text-xs text-gray-500 mt-1">考試項目：${currentArticleTitle}</div>
             `;
             document.getElementById('result-content').innerHTML = `
-                <div class="flex justify-between"><span>耗時：</span><span class="font-bold">${stats.elapsed} 秒</span></div>
-                <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${stats.correct} / ${currentText.length}</span></div>
-                <div class="flex justify-between"><span>準確度：</span><span class="font-bold text-orange-600">${stats.acc}%</span></div>
-                <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${stats.cpm} CPM</span></div>
+                <div class="flex justify-between"><span>耗時：</span><span class="font-bold">${finalStats.elapsed} 秒</span></div>
+                <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${finalStats.correct} / ${currentText.length}</span></div>
+                <div class="flex justify-between"><span>準確度：</span><span class="font-bold text-orange-600">${finalStats.acc}%</span></div>
+                <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${finalStats.cpm} CPM</span></div>
             `;
+            
             document.getElementById('result-overlay').classList.remove('hidden');
-            inputBox.value = "";
             inputBox.disabled = true;
         }
-
 
         function resetGame() {
             document.getElementById('result-overlay').classList.add('hidden');
             document.getElementById('btn-start').classList.remove('hidden');
             document.getElementById('btn-stop').classList.add('hidden');
             document.getElementById('article-select').disabled = false;
+            inputBox.value = "";
             updateArticle();
         }
 
         document.getElementById('btn-screenshot').addEventListener('click', () => {
             const area = document.getElementById('screenshot-area');
             const btns = area.querySelectorAll('button');
-            btns.forEach(b => b.style.display = 'none');
+            btns.forEach(b => b.style.visibility = 'hidden');
             html2canvas(area, { scale: 2 }).then(canvas => {
-                btns.forEach(b => b.style.display = 'block');
+                btns.forEach(b => b.style.visibility = 'visible');
                 const a = document.createElement('a');
-                a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}_${currentArticleTitle}.png`;
+                a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}.png`;
                 a.href = canvas.toDataURL();
                 a.click();
             });
@@ -474,11 +334,7 @@
 
         document.getElementById('btn-start').onclick = startGame;
         document.getElementById('btn-stop').onclick = stopGame;
-        document.getElementById('input-box').oninput = updateStats;
+        inputBox.oninput = updateStats;
     </script>
-	    <!-- 頁底版權資訊 -->
-    <footer class="mt-8 py-6 text-center text-gray-400 text-xs border-t border-gray-200 w-full">
-        <p>&copy; 2026 譚志基老師 - 僅供教學用途</p>
-    </footer>
 </body>
 </html>
