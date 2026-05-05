@@ -42,7 +42,7 @@
         <div class="text-center mb-8">
             <center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png" alt="學校標誌" class="h-20 mb-4"></center>
             <h1 class="text-2xl font-bold text-gray-800">普通電腦科</h1>
-            <h1 class="text-xl font-bold text-gray-800">中文輸入法比賽 (V0.4a)</h1>
+            <h1 class="text-xl font-bold text-gray-800">中文輸入法比賽 (V0.5)</h1>
             <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始比賽</p>
         </div>
 
@@ -90,7 +90,7 @@
         </div>
 
         <div class="p-4 bg-gray-50 border-b">
-            <label class="text-xs font-bold text-gray-500 uppercase">試題內容</label>
+            <label class="text-xs font-bold text-gray-500 uppercase">比賽內容</label>
             <select id="article-select" class="w-full p-2 rounded border border-gray-300 text-sm outline-none bg-white"></select>
         </div>
 
@@ -125,7 +125,7 @@
                 class="w-full p-4 text-xl border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:outline-none disabled:bg-gray-100 h-36 resize-none shadow-inner" 
                 placeholder="請點擊下方按鈕開始..." disabled></textarea>
             <div class="mt-6 flex justify-center gap-4">
-                <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始考試</button>
+                <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始</button>
                 <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">提交試卷</button>
             </div>
         </div>
@@ -184,7 +184,7 @@
 
         // 試題資料
         const articleDatabase = [
-            { category: "考試", items: [{ title: "中文輸入法正式試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
+            { category: "考試", items: [{ title: "中文輸入法比賽試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
         ];
 
         const EXAM_TIME = 30 * 60; // 30分鐘
@@ -344,7 +344,7 @@
             `;
 
             document.getElementById('result-content').innerHTML = `
-                <div class="flex justify-between"><span>考試耗時：</span><span class="font-bold">${final.elapsed} 秒</span></div>
+                <div class="flex justify-between"><span>所用時間：</span><span class="font-bold">${final.elapsed} 秒</span></div>
                 <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${final.correct} 個</span></div>
                 <div class="flex justify-between"><span>準確率：</span><span class="font-bold text-orange-600">${Math.round(final.accRate * 100)}%</span></div>
                 <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${final.cpm} CPM</span></div>
