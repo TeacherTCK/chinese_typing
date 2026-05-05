@@ -409,7 +409,7 @@
                 else s.className = "char-incorrect";
                 if (i === typed.length) s.classList.add('char-current');
             });
-            const acc = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 0;
+            const acc = typed.length > 0 ? Math.round((correct / currentText.length) * 100) : 0;
             const sec = Math.floor((Date.now() - startTime) / 1000);
             const cpm = sec > 0 ? Math.round((correct / sec) * 60) : 0;
             document.getElementById('stats-correct').innerText = correct;
