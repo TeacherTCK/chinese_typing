@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中文輸入法考試</title>
+    <title>中文輸入法比賽</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
@@ -30,6 +30,9 @@
             margin-bottom: 8px;
             display: inline-block;
         }
+        .score-box {
+            border-left: 4px solid #6366f1;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -37,10 +40,10 @@
     <!-- 登入與認證畫面 -->
     <div id="login-screen" class="max-w-md mx-auto bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
         <div class="text-center mb-8">
-            <center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png" alt="Logo" class="h-20 mb-4"></center>
+            <center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png" alt="學校標誌" class="h-20 mb-4"></center>
             <h1 class="text-2xl font-bold text-gray-800">普通電腦科</h1>
-            <h1 class="text-xl font-bold text-gray-800">中文輸入法考試 (V0.4)</h1>
-            <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始考試</p>
+            <h1 class="text-xl font-bold text-gray-800">中文輸入法比賽 (V0.4a)</h1>
+            <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始比賽</p>
         </div>
 
         <div class="space-y-5">
@@ -70,7 +73,7 @@
             </div>
 
             <button id="btn-login" class="w-full py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg transform active:scale-95">
-                進入練習
+                進入比賽
             </button>
             <p id="login-error" class="text-red-500 text-center text-sm font-bold hidden">❌ 驗證失敗：編號不正確</p>
         </div>
@@ -80,28 +83,28 @@
     <div id="game-screen" class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 hidden">
         <div class="bg-indigo-700 p-4 text-white flex justify-between items-center">
             <div>
-                <h1 class="text-xl font-bold">中文輸入法考試</h1>
+                <h1 class="text-xl font-bold">仁愛堂陳黃淑芳紀念中學 - 中文輸入法比賽</h1>
                 <p id="user-display" class="text-xs opacity-80">學生：未登入</p>
             </div>
             <button onclick="location.reload()" class="text-xs bg-indigo-600 px-3 py-1 rounded hover:bg-indigo-500">登出</button>
         </div>
 
         <div class="p-4 bg-gray-50 border-b">
-            <label class="text-xs font-bold text-gray-500 uppercase">練習類別</label>
+            <label class="text-xs font-bold text-gray-500 uppercase">試題內容</label>
             <select id="article-select" class="w-full p-2 rounded border border-gray-300 text-sm outline-none bg-white"></select>
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-5 gap-2 p-4 bg-indigo-50 border-b border-indigo-100 text-xs font-bold text-center">
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
-                <span class="text-gray-400">總字數</span>
-                <span id="stats-total" class="text-indigo-600 text-lg">0</span>
-            </div>
-            <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
-                <span class="text-gray-400">正確數</span>
+                <span class="text-gray-400">正確字數</span>
                 <span id="stats-correct" class="text-green-600 text-lg">0</span>
             </div>
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
-                <span class="text-gray-400">正確率</span>
+                <span class="text-gray-400">完成度</span>
+                <span id="stats-completion" class="text-indigo-600 text-lg">0%</span>
+            </div>
+            <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
+                <span class="text-gray-400">準確率</span>
                 <span id="stats-accuracy" class="text-orange-600 text-lg">0%</span>
             </div>
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
@@ -109,21 +112,21 @@
                 <span id="stats-time" class="text-blue-600 text-lg">30:00</span>
             </div>
             <div class="flex flex-col items-center p-2 bg-white rounded shadow-sm">
-                <span class="text-gray-400">速率(CPM)</span>
+                <span class="text-gray-400">速度(CPM)</span>
                 <span id="stats-wpm" class="text-purple-600 text-lg">0</span>
             </div>
         </div>
 
         <div class="p-6">
-            <div id="category-display" class="category-tag bg-indigo-600 text-white font-bold">類別</div>
+            <div id="category-display" class="category-tag bg-indigo-600 text-white font-bold">比賽試題</div>
             <div id="text-container" class="text-display text-2xl mb-6 p-6 bg-white rounded-xl border border-gray-200 min-h-[160px] font-medium text-gray-800 shadow-sm"></div>
             <textarea id="input-box" 
                 oncopy="return false" onpaste="return false" oncut="return false" oncontextmenu="return false"
                 class="w-full p-4 text-xl border-2 border-gray-300 rounded-xl focus:border-indigo-500 focus:outline-none disabled:bg-gray-100 h-36 resize-none shadow-inner" 
-                placeholder="請點擊開始練習..." disabled></textarea>
+                placeholder="請點擊下方按鈕開始..." disabled></textarea>
             <div class="mt-6 flex justify-center gap-4">
-                <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始練習</button>
-                <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">結束結算</button>
+                <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始考試</button>
+                <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">提交試卷</button>
             </div>
         </div>
     </div>
@@ -131,13 +134,30 @@
     <!-- 結算報告 -->
     <div id="result-overlay" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-md">
         <div id="screenshot-area" class="bg-white p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border-4 border-indigo-200">
-            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2"><span class="text-3xl">🏅</span></div>
-            <h2 class="text-xl font-black text-indigo-900">中文輸入法考試成績</h2>
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-2"><span class="text-3xl">📝</span></div>
+            <h2 class="text-xl font-black text-indigo-900">中文輸入法比賽結果</h2>
+            
             <div id="result-user-info" class="my-4 p-3 bg-gray-50 rounded-xl border border-gray-200 text-sm"></div>
-            <div id="result-content" class="text-left space-y-3 mb-6 p-4 bg-indigo-50 rounded-xl border border-indigo-100"></div>
+            
+            <div id="result-content" class="text-left space-y-2 mb-4 p-4 bg-indigo-50 rounded-xl border border-indigo-100 text-sm">
+                <!-- 詳細數據將在此處生成 -->
+            </div>
+
+            <!-- 分數計算區 -->
+            <div class="bg-white border-2 border-indigo-500 rounded-2xl p-4 mb-6 shadow-inner text-left">
+                <h3 class="text-xs font-bold text-gray-400 uppercase mb-2">得分結算</h3>
+                <div class="space-y-1 text-sm" id="score-details">
+                    <!-- 分數細節將在此處生成 -->
+                </div>
+                <div class="mt-3 pt-2 border-t border-dashed border-gray-300 flex justify-between items-baseline">
+                    <span class="font-bold text-gray-700">總得分：</span>
+                    <span id="final-total-score" class="text-3xl font-black text-indigo-600">0</span>
+                </div>
+            </div>
+
             <div class="space-y-3">
                 <button id="btn-screenshot" class="w-full py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 shadow-lg flex items-center justify-center gap-2">儲存成績單圖片</button>
-                <button onclick="resetGame()" class="w-full py-3 bg-gray-200 text-gray-700 font-bold rounded-xl">重試</button>
+                <button onclick="resetGame()" class="w-full py-3 bg-gray-200 text-gray-700 font-bold rounded-xl">重新嘗試</button>
             </div>
         </div>
     </div>
@@ -147,11 +167,13 @@
     </footer>
 
     <script>
+        // 學生資料解密
         function decodeId(encoded) {
             const map = {'k':'a', 'a':'0', 'b':'1', 'c':'2', 'd':'3', 'e':'4', 'f':'5', 'g':'6', 'h':'7', 'i':'8', 'j':'9'};
             return encoded.split('').map(char => map[char] || char).join('');
         }
 
+        // 學生名單
         const rawStudentData = [
             {c:"1A", n:"1", name:"王萱", id:"kcfaab"}, {c:"1A", n:"2", name:"趙紫喬", id:"kcfabf"}, {c:"1A", n:"3", name:"馮雨晴", id:"kcfacb"}, {c:"1A", n:"4", name:"許恩嵐", id:"kcfach"}, {c:"1A", n:"5", name:"林曉月", id:"kcfadd"}, {c:"1A", n:"6", name:"林芷樂", id:"kcfadf"}, {c:"1A", n:"7", name:"林雪瑤", id:"kcfaff"}, {c:"1A", n:"8", name:"林怡欣", id:"kcfafg"}, {c:"1A", n:"9", name:"吳瑾萱", id:"kcfagh"}, {c:"1A", n:"10", name:"柯晴", id:"kcfagi"}, {c:"1A", n:"11", name:"曾鎧淇", id:"kcfaib"}, {c:"1A", n:"12", name:"謝潔榆", id:"kcfaid"}, {c:"1A", n:"13", name:"尹瀖萮", id:"kcfaih"}, {c:"1A", n:"14", name:"黃以錡", id:"kcfajh"}, {c:"1A", n:"15", name:"楊卓琳", id:"kcfbad"}, {c:"1A", n:"16", name:"楊雅媛", id:"kcfbae"}, {c:"1A", n:"17", name:"楊諾晴", id:"kcfbag"}, {c:"1A", n:"18", name:"蔡俊熙", id:"kcfaac"}, {c:"1A", n:"19", name:"陳羿夆", id:"kcfaae"}, {c:"1A", n:"20", name:"左嘉晉", id:"kcfabg"}, {c:"1A", n:"21", name:"付梓霖", id:"kcfaca"}, {c:"1A", n:"22", name:"何昊斌", id:"kcfacc"}, {c:"1A", n:"23", name:"江岸", id:"kcfaci"}, {c:"1A", n:"24", name:"黎柏麟", id:"kcfadc"}, {c:"1A", n:"25", name:"劉思源", id:"kcfadj"}, {c:"1A", n:"26", name:"李柏軒", id:"kcfafe"}, {c:"1A", n:"27", name:"呂卓謙", id:"kcfaga"}, {c:"1A", n:"28", name:"繆天朗", id:"kcfage"}, {c:"1A", n:"29", name:"沈子軒", id:"kcfahb"}, {c:"1A", n:"30", name:"曾曉航", id:"kcfaia"}, {c:"1A", n:"31", name:"黃宇康", id:"kcfbbi"}, {c:"1A", n:"32", name:"胡梓皓", id:"kcfajj"}, {c:"1A", n:"33", name:"楊啓政", id:"kcfbaf"}, {c:"1A", n:"34", name:"鄭昊琰", id:"kcfbbc"}, {c:"1A", n:"35", name:"李鈞皓", id:"kcfafa"},
             {c:"1B", n:"1", name:"陳敏兒", id:"kcfaah"}, {c:"1B", n:"2", name:"黃思雨", id:"kcface"}, {c:"1B", n:"3", name:"姜芝玲", id:"kcfbbf"}, {c:"1B", n:"4", name:"郭彥妤", id:"kcfada"}, {c:"1B", n:"5", name:"李梓菁", id:"kcfaef"}, {c:"1B", n:"6", name:"梁佩珊", id:"kcfaeh"}, {c:"1B", n:"7", name:"勞希妍", id:"kcfafj"}, {c:"1B", n:"8", name:"蘇心悠", id:"kcfahd"}, {c:"1B", n:"9", name:"孫婉婷", id:"kcfahe"}, {c:"1B", n:"10", name:"唐子晴", id:"kcfahi"}, {c:"1B", n:"11", name:"田欣", id:"kcfbbj"}, {c:"1B", n:"12", name:"謝靖澄", id:"kcfaic"}, {c:"1B", n:"13", name:"韋詠熙", id:"kcfaig"}, {c:"1B", n:"14", name:"黃雅頌", id:"kcfajf"}, {c:"1B", n:"15", name:"陳靖民", id:"kcfaad"}, {c:"1B", n:"16", name:"陳彦愷", id:"kcfaag"}, {c:"1B", n:"17", name:"陳宜德", id:"kcfaai"}, {c:"1B", n:"18", name:"張正昊", id:"kcfabb"}, {c:"1B", n:"19", name:"杜嘉禧", id:"kcfabj"}, {c:"1B", n:"20", name:"古智森", id:"kcfbbg"}, {c:"1B", n:"21", name:"梁永樂", id:"kcfaei"}, {c:"1B", n:"22", name:"呂澤楷", id:"kcfagb"}, {c:"1B", n:"23", name:"麥志誠", id:"kcfagc"}, {c:"1B", n:"24", name:"潘宥安", id:"kcfaha"}, {c:"1B", n:"25", name:"譚澤聰", id:"kcfahg"}, {c:"1B", n:"26", name:"温學耀", id:"kcfaif"}, {c:"1B", n:"27", name:"黃致君", id:"kcfaii"}, {c:"1B", n:"28", name:"王瑋鍵", id:"kcfajg"}, {c:"1B", n:"29", name:"顏梓洋", id:"kcfbac"}, {c:"1B", n:"30", name:"嚴樂熙", id:"kcfbai"}, {c:"1B", n:"31", name:"嚴永騰", id:"kcfbaj"}, {c:"1B", n:"32", name:"張俊熙", id:"kcfbbb"}, {c:"1B", n:"33", name:"宋雍涵", id:"kcfbdi"},
@@ -160,11 +182,12 @@
             {c:"老師", n:"TCK", name:"譚志基老師", id:"aaa"}, {c:"老師", n:"CML", name:"鄭孟利老師", id:"aaa"}
         ];
 
+        // 試題資料
         const articleDatabase = [
-            { category: "考試", items: [{ title: "正式試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
+            { category: "考試", items: [{ title: "中文輸入法正式試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
         ];
 
-        const GAME_DURATION = 30 * 60; // 30分鐘
+        const EXAM_TIME = 30 * 60; // 30分鐘
         let currentUser = null;
         let isPlaying = false;
         let startTime = 0;
@@ -179,6 +202,7 @@
         const loginBtn = document.getElementById('btn-login');
         const inputBox = document.getElementById('input-box');
 
+        // 初始化下拉選單
         classSelect.addEventListener('change', () => {
             const selectedClass = classSelect.value;
             studentSelect.innerHTML = '<option value="">-- 選擇姓名 (班號) --</option>';
@@ -195,6 +219,7 @@
             studentSelect.disabled = false;
         });
 
+        // 登入驗證
         loginBtn.addEventListener('click', () => {
             const selectedId = studentSelect.value;
             const inputId = idInput.value.trim().toLowerCase();
@@ -240,7 +265,7 @@
             
             document.getElementById('category-display').textContent = articleDatabase[ci].category;
             document.getElementById('text-container').innerHTML = currentText.split('').map(c => `<span>${c}</span>`).join('');
-            document.getElementById('stats-total').innerText = currentText.length;
+            document.getElementById('stats-time').innerText = "30:00";
         }
 
         function startGame() {
@@ -258,7 +283,7 @@
 
         function tick() {
             const elapsed = Math.floor((Date.now() - startTime) / 1000);
-            const remaining = Math.max(0, GAME_DURATION - elapsed);
+            const remaining = Math.max(0, EXAM_TIME - elapsed);
             const mins = Math.floor(remaining / 60);
             const secs = remaining % 60;
             document.getElementById('stats-time').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
@@ -279,32 +304,59 @@
             });
 
             const elapsed = Math.max(1, Math.floor((Date.now() - startTime) / 1000));
-            const acc = typed.length > 0 ? Math.round((correct / typed.length) * 100) : 0;
+            const accRate = typed.length > 0 ? (correct / typed.length) : 0;
+            const completionRate = Math.round((typed.length / currentText.length) * 100);
             const cpm = Math.round((correct / elapsed) * 60);
 
             document.getElementById('stats-correct').innerText = correct;
-            document.getElementById('stats-accuracy').innerText = acc + "%";
+            document.getElementById('stats-accuracy').innerText = Math.round(accRate * 100) + "%";
+            document.getElementById('stats-completion').innerText = completionRate + "%";
             document.getElementById('stats-wpm').innerText = isPlaying ? cpm : document.getElementById('stats-wpm').innerText;
 
-            return { correct, acc, elapsed, cpm };
+            return { correct, accRate, elapsed, cpm, typedLength: typed.length };
         }
 
         function stopGame() {
             if (!isPlaying) return;
             clearInterval(timer);
-            const finalStats = updateStats();
+            const final = updateStats();
             isPlaying = false;
             
+            // 分數計算
+            // 1. 完成度 (50分)
+            const completionScore = Math.min(50, final.correct);
+            
+            // 2. 準確率 (30分)
+            const accuracyScore = Math.round(30 * final.accRate);
+            
+            // 3. 速度獎勵 (20分)
+            let speedBonus = 0;
+            if (final.correct > 50) {
+                speedBonus = Math.min(20, Math.floor((final.correct - 50) / 2));
+            }
+
+            const totalScore = completionScore + accuracyScore + speedBonus;
+
+            // 填充成績單介面
             document.getElementById('result-user-info').innerHTML = `
                 <div class="font-bold text-indigo-700">學生：${currentUser.c} (${currentUser.n}) ${currentUser.name}</div>
-                <div class="text-xs text-gray-500 mt-1">考試項目：${currentArticleTitle}</div>
+                <div class="text-xs text-gray-500 mt-1">試題：${currentArticleTitle}</div>
             `;
+
             document.getElementById('result-content').innerHTML = `
-                <div class="flex justify-between"><span>耗時：</span><span class="font-bold">${finalStats.elapsed} 秒</span></div>
-                <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${finalStats.correct} / ${currentText.length}</span></div>
-                <div class="flex justify-between"><span>準確度：</span><span class="font-bold text-orange-600">${finalStats.acc}%</span></div>
-                <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${finalStats.cpm} CPM</span></div>
+                <div class="flex justify-between"><span>考試耗時：</span><span class="font-bold">${final.elapsed} 秒</span></div>
+                <div class="flex justify-between"><span>正確字數：</span><span class="font-bold text-green-600">${final.correct} 個</span></div>
+                <div class="flex justify-between"><span>準確率：</span><span class="font-bold text-orange-600">${Math.round(final.accRate * 100)}%</span></div>
+                <div class="flex justify-between"><span>打字速率：</span><span class="font-bold text-purple-600">${final.cpm} CPM</span></div>
             `;
+
+            document.getElementById('score-details').innerHTML = `
+                <div class="flex justify-between"><span>完成度得分 (正確字數)：</span><span class="font-mono text-indigo-600">+${completionScore}</span></div>
+                <div class="flex justify-between"><span>準確率得分 (30 × 準確率)：</span><span class="font-mono text-indigo-600">+${accuracyScore}</span></div>
+                <div class="flex justify-between"><span>速度獎勵 (超過50字獎勵)：</span><span class="font-mono text-indigo-600">+${speedBonus}</span></div>
+            `;
+
+            document.getElementById('final-total-score').innerText = totalScore;
             
             document.getElementById('result-overlay').classList.remove('hidden');
             inputBox.disabled = true;
@@ -316,18 +368,25 @@
             document.getElementById('btn-stop').classList.add('hidden');
             document.getElementById('article-select').disabled = false;
             inputBox.value = "";
+            document.getElementById('stats-correct').innerText = "0";
+            document.getElementById('stats-accuracy').innerText = "0%";
+            document.getElementById('stats-completion').innerText = "0%";
+            document.getElementById('stats-wpm').innerText = "0";
             updateArticle();
         }
 
+        // 截圖儲存
         document.getElementById('btn-screenshot').addEventListener('click', () => {
             const area = document.getElementById('screenshot-area');
             const btns = area.querySelectorAll('button');
+            // 隱藏按鈕避免出現在圖中
             btns.forEach(b => b.style.visibility = 'hidden');
-            html2canvas(area, { scale: 2 }).then(canvas => {
+            
+            html2canvas(area, { scale: 2, backgroundColor: "#ffffff" }).then(canvas => {
                 btns.forEach(b => b.style.visibility = 'visible');
                 const a = document.createElement('a');
                 a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}.png`;
-                a.href = canvas.toDataURL();
+                a.href = canvas.toDataURL("image/png");
                 a.click();
             });
         });
