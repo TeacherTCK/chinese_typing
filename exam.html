@@ -287,7 +287,7 @@
             { category: "考試", items: [{ title: "考試", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
         ];
 		
-		const GAME_DURATION = 30 * 60; 
+		const GAME_DURATION = 10; 
         let currentUser = null;
         let isPlaying = false;
         let startTime = 0;
@@ -388,11 +388,21 @@
             inputBox.value = "";
             inputBox.focus();
             startTime = Date.now();
-            timer = setInterval(updateStats, 500);
+            timer = setInterval(tick, 1000);
             document.getElementById('btn-start').classList.add('hidden');
             document.getElementById('btn-stop').classList.remove('hidden');
         }
 
+		function tick() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const remaining = Math.max(0, GAME_DURATION - elapsed);
+            const mins = Math.floor(remaining / 60);
+            const secs = remaining % 60;
+            document.getElementById('stats-time').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            if (remaining <= 0) stopGame();
+            updateStatsUI();
+        }
+		
         function updateStats() {
             const typed = document.getElementById('input-box').value;
             const spans = document.getElementById('text-container').querySelectorAll('span');
@@ -417,12 +427,7 @@
             document.getElementById('stats-accuracy').innerText = acc + "%";
             document.getElementById('stats-wpm').innerText = cpm;
 
-			if (remaining <= 0) {
-                stopGame();
-                return;
-            }
-			
-            return { correct, acc, elapsed, cpm };
+			return { correct, acc, elapsed, cpm };
         }
 
         function stopGame() {
