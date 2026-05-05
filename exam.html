@@ -40,7 +40,7 @@
     <!-- 登入與認證畫面 -->
     <div id="login-screen" class="max-w-md mx-auto bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
         <div class="text-center mb-8">
-            <center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png" alt="學校標誌" class="h-20 mb-4"></center>
+            <center><img src="https://yotcwsf.edu.hk/download/Resource/BGImage/schoolLogo005.png" alt="學校標誌"></center>
             <h1 class="text-2xl font-bold text-gray-800">普通電腦科</h1>
             <h1 class="text-xl font-bold text-gray-800">中文輸入法比賽 (V0.5)</h1>
             <p class="text-gray-500 text-sm mt-1">請選擇班別及姓名以開始比賽</p>
@@ -184,10 +184,10 @@
 
         // 試題資料
         const articleDatabase = [
-            { category: "考試", items: [{ title: "中文輸入法比賽試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
+            { category: "比賽", items: [{ title: "中文輸入法比賽試題", content: "做個好學生，心中要有火。第一，我們要用功。天天上學，用心工作。只要多努力，事事必成功。用力做事的人，大家都會愛。勤於工作，就是成功的路。第二，我們要有心。做好自己的事，就是對大家有用。做人要有信，說到就要做到。一個有責任的人，大家都會信。事事盡力，就是對自己負責。第三，我們要有仁。愛朋友，愛家人，也愛大家。心存仁愛，天天都開心。大家同心，社會就會好。香港是我家。大家同心，一起出力。只要心中有光，明天一定好。我們一齊努力，共創美好明天。" } ] }
         ];
 
-        const EXAM_TIME = 30 * 60; // 30分鐘
+        const EXAM_TIME = 10; //30 * 60; // 30分鐘
         let currentUser = null;
         let isPlaying = false;
         let startTime = 0;
