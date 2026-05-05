@@ -126,7 +126,7 @@
                 placeholder="請點擊下方按鈕開始..." disabled></textarea>
             <div class="mt-6 flex justify-center gap-4">
                 <button id="btn-start" class="px-12 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-full shadow-lg transform active:scale-95">開始</button>
-                <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">提交試卷</button>
+                <button id="btn-stop" class="px-12 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-full shadow-lg hidden">提交</button>
             </div>
         </div>
     </div>
@@ -385,7 +385,7 @@
             html2canvas(area, { scale: 2, backgroundColor: "#ffffff" }).then(canvas => {
                 btns.forEach(b => b.style.visibility = 'visible');
                 const a = document.createElement('a');
-                a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}.png`;
+                a.download = `成績單_${currentUser.c}_${currentUser.n}_${currentUser.name}_${currentArticleTitle}.png`;
                 a.href = canvas.toDataURL("image/png");
                 a.click();
             });
